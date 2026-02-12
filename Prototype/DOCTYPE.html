@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wonderlist | Explore the World</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        :root {
+            --dark-pink: #ffb6c1;
+            --accent-pink: #f8adba;
+            --deep-rose: #e5989b;
+            --text-dark: #2d3436;
+            --white: #ffffff;
+            --glass-bg: rgba(255, 255, 255, 0.75);
+            --footer-bg: #1e272e;
+            --footer-text: #d2dae2;
+            --shadow-soft: 0 20px 40px rgba(0,0,0,0.08);
+            --shadow-pink: 0 15px 35px rgba(255, 182, 193, 0.4);
+            --border-radius-main: 24px;
+            --transition-smooth: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            --bg-image: url('https://wallpapers.com/images/hd/japan-cherry-blossom-1920-x-1200-t08tqwfu898lrein.jpg');
+            --overlay-color: rgba(255, 228, 225, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            width: 100%;
+            background-image: linear-gradient(var(--overlay-color), var(--overlay-color)), var(--bg-image);
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+        }
+        header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 1.2rem 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+            flex-wrap: wrap;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        .logo {
+            width: 320px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-image {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-width: 100%;
+            max-height: 100px;
+            object-fit: contain;
+        }
+
+        .logo-placeholder {
+            width: 100%;
+            height: 100%;
+            background-color: #ffd9e2;
+            border: 2px dashed var(--dark-pink);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #8a6e74;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .logo-placeholder i {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--dark-pink);
+        }
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #2c2c2c;
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s ease;
+            position: relative;
+            padding-bottom: 5px;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.5);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--dark-pink);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #b3545a;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .search-container input {
+            padding: 12px 22px;
+            border-radius: 40px;
+            border: 1px solid rgba(255,182,193,0.8);
+            background: rgba(255, 255, 255, 0.9);
+            outline: none;
+            font-size: 1rem;
+            width: 210px;
+            transition: 0.2s;
+            backdrop-filter: blur(4px);
+        }
+
+        .search-container input:focus {
+            border-color: #ff7e8b;
+            width: 240px;
+            background: white;
+        }
+
+        .hero {
+            min-height: 30vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: rgba(255, 245, 240, 0.55);
+            backdrop-filter: blur(6px);
+            margin: 2rem 5% 1rem;
+            border-radius: 50px;
+            padding: 2.5rem 1rem;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255,255,255,0.6);
+        }
+
+        .hero h2 {
+            font-size: 3.2rem;
+            font-weight: 300;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            color: #1e272e;
+            text-shadow: 2px 2px 10px rgba(255,240,240,0.8);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            font-weight: 300;
+            color: #2c3a4a;
+        }
+
+        .destination-showcase {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2.5rem;
+            padding: 80px 10%;
+            background: transparent;
+        }
+
+        .destination-card {
+            flex: 1 1 300px;
+            max-width: 380px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            border-radius: 28px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.35s, box-shadow 0.4s;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(255,255,255,0.9);
+        }
+
+        .destination-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 30px 50px rgba(0,0,0,0.15);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .card-text-above {
+            background: linear-gradient(145deg, #fff9fa, #fff1f0);
+            padding: 1.8rem 1.5rem 1rem 1.5rem;
+            border-bottom: 2px solid var(--dark-pink);
+        }
+
+        .card-text-above h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1e272e;
+            margin-bottom: 0.4rem;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-text-above h3 i {
+            color: var(--dark-pink);
+            font-size: 1.9rem;
+        }
+
+        .country-sub {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: #b2475a;
+            letter-spacing: 2px;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .quick-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin-top: 0.8rem;
+            color: #3a3e4b;
+            font-weight: 500;
+            font-size: 0.95rem;
+            border-top: 1px dashed #faaab3;
+            padding-top: 0.9rem;
+        }
+
+        .quick-info span i {
+            margin-right: 6px;
+            color: #ff8a9c;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .destination-card:hover .card-img img {
+            transform: scale(1.1);
+        }
+
+        .card-footer-note {
+            padding: 1.3rem 1.5rem 1.5rem;
+            background: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+            color: #4a4f5c;
+            border-top: 1px solid #ffe0e5;
+            backdrop-filter: blur(4px);
+        }
+
+        .pricing-section {
+            padding: 90px 10%;
+            background: rgba(255, 230, 230, 0.55);
+            backdrop-filter: blur(8px);
+            border-radius: 60px 60px 30px 30px;
+            margin: 40px 5%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.7);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.8rem;
+            font-weight: 600;
+            color: #2d1f21;
+            margin-bottom: 1rem;
+            letter-spacing: 3px;
+            text-shadow: 0 2px 5px rgba(255,255,255,0.6);
+        }
+
+        .section-sub {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #4f3539;
+            margin-bottom: 3.5rem;
+            font-style: italic;
+        }
+
+        .class-cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: stretch;
+            gap: 2rem;
+        }
+
+        .class-card {
+            flex: 1 1 260px;
+            max-width: 320px;
+            background: rgba(255, 245, 240, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 40px 40px 30px 30px;
+            padding: 2.2rem 1.5rem 2rem;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            position: relative;
+            z-index: 2;
+        }
+
+        .class-card:hover {
+            transform: translateY(-15px);
+            background: rgba(255, 250, 245, 0.95);
+            box-shadow: 0 30px 50px rgba(150, 100, 110, 0.25);
+        }
+
+        .class-card.middle-class {
+            background: linear-gradient(145deg, rgba(255, 231, 235, 0.9), rgba(255, 217, 223, 0.9));
+            border: 3px solid #ffa5ab;
+            box-shadow: 0 25px 45px rgba(200, 100, 120, 0.3);
+            transform: scale(1.05);
+            backdrop-filter: blur(12px);
+        }
+
+        .class-card.middle-class:hover {
+            transform: scale(1.08) translateY(-12px);
+            box-shadow: 0 35px 55px rgba(200, 80, 110, 0.4);
+        }
+
+        .best-badge {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: #ff7a85;
+            color: white;
+            padding: 0.6rem 1.6rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            box-shadow: 0 8px 15px rgba(255, 100, 120, 0.3);
+            border: 1px solid white;
+        }
+
+        .class-icon {
+            font-size: 2.8rem;
+            color: #b84c5c;
+            margin-bottom: 0.8rem;
+            text-align: center;
+        }
+
+        .class-name {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #37292b;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            border-bottom: 2px dashed var(--dark-pink);
+            padding-bottom: 0.8rem;
+        }
+
+        .class-price {
+            font-size: 2.3rem;
+            font-weight: 800;
+            color: #532c31;
+            text-align: center;
+            margin: 1rem 0 0.2rem;
+        }
+
+        .class-price span {
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: #7f5257;
+        }
+
+        .class-description {
+            font-size: 1rem;
+            color: #4a3a3c;
+            margin: 0.8rem 0 1.2rem;
+            line-height: 1.5;
+            flex: 1;
+            text-align: center;
+            padding: 0 0.5rem;
+        }
+
+        .class-features {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0 1.8rem;
+        }
+
+        .class-features li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 182, 193, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            color: #4f3b3e;
+        }
+
+        .class-features li i {
+            color: #e6707a;
+            width: 22px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .btn-select {
+            background: #ffb6c1;
+            border: none;
+            color: #2d1e20;
+            padding: 1rem 1.8rem;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: 0.25s;
+            border: 1px solid white;
+            box-shadow: 0 6px 0 #d48a95;
+            margin-top: 0.6rem;
+            text-transform: uppercase;
+            backdrop-filter: blur(4px);
+        }
+
+        .btn-select:hover {
+            background: #ffa5b0;
+            transform: translateY(-3px);
+            box-shadow: 0 9px 0 #b86c76, 0 10px 25px rgba(255,130,140,0.4);
+        }
+
+        .class-card.middle-class .btn-select {
+            background: #ff8a97;
+            color: white;
+            box-shadow: 0 6px 0 #ba5a64;
+        }
+
+        footer {
+            background: #1e272e;
+            color: #d2dae2;
+            padding: 70px 10% 40px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--white);
+            margin-bottom: 1rem;
+            display: inline-block;
+            letter-spacing: 6px;
+            border-bottom: 2px solid var(--dark-pink);
+            padding-bottom: 8px;
+        }
+
+        .ending-info p {
+            font-size: 1.2rem;
+            color: #bdc7d0;
+            margin-bottom: 2rem;
+        }
+
+        .social-links {
+            margin: 2rem 0 1.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+        }
+
+        .social-links a {
+            color: #b0bec5;
+            font-size: 1.9rem;
+            transition: 0.25s;
+        }
+
+        .social-links a:hover {
+            color: var(--dark-pink);
+            transform: translateY(-8px);
+        }
+
+        .footer-contact {
+            font-size: 0.9rem;
+            opacity: 0.75;
+            margin: 0.3rem 0;
+        }
+
+        .footer-copy {
+            font-size: 0.78rem;
+            opacity: 0.6;
+            margin-top: 0.8rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #3b4b58;
+            width: 70%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (max-width: 950px) {
+            .class-card.middle-class { transform: scale(1); }
+            .class-card.middle-class:hover { transform: translateY(-12px); }
+        }
+        @media (max-width: 768px) {
+            .logo { width: 200px; height: 70px; }
+            .nav-links { order: 3; width: 100%; justify-content: center; }
+            .hero h2 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <img class="logo-image" src="asset/logo.png" alt="Wonderlist Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="logo-placeholder" style="display: none;">
+                <i class="fas fa-globe"></i>
+                <span>WONDER</span>
+            </div>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#destinations">Destinations</a></li>
+                <li><a href="#classes">Travel Classes</a></li>
+                <li><a href="#contact">Contact Us</a></li>
+            </ul>
+        </nav>
+        <div class="search-container">
+            <input type="text" placeholder="Search...">
+        </div>
+    </header>
+
+    <div class="hero" id="home">
+        <h2>WONDERLIST</h2>
+        <p>"Collect moments, not things,"</p>
+    </div>
+
+    <div class="destination-showcase" id="destinations">
+
+        <div class="destination-card">
+            <div class="card-text-above">
+                <span class="country-sub"><i class="fas fa-map-pin"></i> Land of the Rising Sun</span>
+                <h3><i class="fas fa-torii-gate"></i> Japan</h3>
+                <div class="quick-info">
+                    <span><i class="fas fa-calendar-alt"></i> Best: Mar–May</span>
+                    <span><i class="fas fa-utensils"></i> Sushi, Ramen</span>
+                    <span><i class="fas fa-landmark"></i> Kyoto, Tokyo</span>
+                </div>
+                <p style="margin-top: 0.7rem; font-style: italic; color: #5a4e51;">"Tradition meets future"</p>
+            </div>
+            <div class="card-img">
+                <img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=800&q=80" alt="Japan temple">
+            </div>
+            <div class="card-footer-note">
+                <i class="fas fa-circle-info"></i> 50+ cultural experiences · Cherry blossom tours
+            </div>
+        </div>
+
+        <div class="destination-card">
+            <div class="card-text-above">
+                <span class="country-sub"><i class="fas fa-map-pin"></i> Bel Paese</span>
+                <h3><i class="fas fa-landmark"></i> Italy</h3>
+                <div class="quick-info">
+                    <span><i class="fas fa-calendar-alt"></i> Best: Apr–Jun</span>
+                    <span><i class="fas fa-wine-glass-alt"></i> Pasta, Wine</span>
+                    <span><i class="fas fa-roman-statue"></i> Rome, Florence</span>
+                </div>
+                <p style="margin-top: 0.7rem; font-style: italic; color: #5a4e51;">"Dolce Vita awaits"</p>
+            </div>
+            <div class="card-img">
+                <img src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?auto=format&fit=crop&w=800&q=80" alt="Venice canal">
+            </div>
+            <div class="card-footer-note">
+                <i class="fas fa-circle-info"></i> Art, history & cuisine · Vatican access
+            </div>
+        </div>
+
+        <div class="destination-card">
+            <div class="card-text-above">
+                <span class="country-sub"><i class="fas fa-map-pin"></i> Emerald of the Equator</span>
+                <h3><i class="fas fa-umbrella-beach"></i> Indonesia</h3>
+                <div class="quick-info">
+                    <span><i class="fas fa-calendar-alt"></i> Best: May–Sep</span>
+                    <span><i class="fas fa-egg"></i> Nasi Goreng</span>
+                    <span><i class="fas fa-water"></i> Bali, Raja Ampat</span>
+                </div>
+                <p style="margin-top: 0.7rem; font-style: italic; color: #5a4e51;">"Island of Gods"</p>
+            </div>
+            <div class="card-img">
+                <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=80" alt="Bali rice terrace">
+            </div>
+            <div class="card-footer-note">
+                <i class="fas fa-circle-info"></i> Diving, volcanoes, and spiritual retreats
+            </div>
+        </div>
+    </div>
+
+
+    <div class="pricing-section" id="classes">
+        <h2 class="section-title"> Choose your class </h2>
+        <p class="section-sub">"Life is short, and the world is wide."</p>
+        
+        <div class="class-cards-container">
+
+            <div class="class-card">
+                <div class="class-icon"><i class="fas fa-backpack"></i></div>
+                <div class="class-name">WanderLight</div>
+                <div class="class-price">$1,290 <span>/ trip</span></div>
+                <div class="class-description">
+                    Essential comfort, big adventures. Perfect for solo explorers and weekenders.
+                </div>
+                <ul class="class-features">
+                    <li><i class="fas fa-check-circle"></i> Economy flights + 1 checked bag</li>
+                    <li><i class="fas fa-check-circle"></i> 3-star boutique stays</li>
+                    <li><i class="fas fa-check-circle"></i> 2 group experiences</li>
+                    <li><i class="fas fa-check-circle"></i> 24/7 support hotline</li>
+                </ul>
+                <button class="btn-select">select</button>
+            </div>
+            
+            <div class="class-card middle-class">
+                <div class="best-badge"><i class="fas fa-crown"></i> best choice</div>
+                <div class="class-icon"><i class="fas fa-gem"></i></div>
+                <div class="class-name">Signature</div>
+                <div class="class-price">$2,490 <span>/ trip</span></div>
+                <div class="class-description">
+                    Our most loved class — premium comfort, authentic connections, and exclusive access.
+                </div>
+                <ul class="class-features">
+                    <li><i class="fas fa-check-circle"></i> Premium economy + lounge access</li>
+                    <li><i class="fas fa-check-circle"></i> 4-star heritage hotels</li>
+                    <li><i class="fas fa-check-circle"></i> Private guided tours & local feasts</li>
+                    <li><i class="fas fa-check-circle"></i> Airport transfers + travel concierge</li>
+                    <li><i class="fas fa-check-circle"></i> Flexible cancellation</li>
+                </ul>
+                <button class="btn-select">select</button>
+            </div>
+
+            <div class="class-card">
+                <div class="class-icon"><i class="fas fa-crown"></i></div>
+                <div class="class-name">WanderLux</div>
+                <div class="class-price">$4,890 <span>/ trip</span></div>
+                <div class="class-description">
+                    Unforgettable opulence. Private villas, first-class travel, and bespoke moments.
+                </div>
+                <ul class="class-features">
+                    <li><i class="fas fa-check-circle"></i> Business class + private transfers</li>
+                    <li><i class="fas fa-check-circle"></i> 5-star luxury resorts</li>
+                    <li><i class="fas fa-check-circle"></i> Private chef / VIP experiences</li>
+                    <li><i class="fas fa-check-circle"></i> Personal butler & spa credit</li>
+                    <li><i class="fas fa-check-circle"></i> Fully customizable</li>
+                </ul>
+                <button class="btn-select">select</button>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 3rem; color: #3d2a2c; font-weight: 500; background: rgba(255,230,230,0.6); padding: 0.8rem; border-radius: 60px; backdrop-filter: blur(4px);">
+            <i class="fas fa-heart" style="color: #ff6b81;"></i> All classes include carbon offset & community-driven itineraries
+        </p>
+    </div>
+
+    <footer id="contact">
+        <span class="footer-logo">WONDERLIST</span>
+        <div class="ending-info">
+            <p>Join 50,000+ travelers exploring the globe with us every year.</p>
+        </div>
+        <div class="social-links">
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest"></i></a>
+        </div>
+        <div class="footer-contact">Simon28@gmail.com</div>
+        <div class="footer-copy">&copy; Since 1916 | Successfully 1+ lakh employers.</div>
+    </footer>
+
+
+    <script>
+        (function(){
+            const logoImg = document.querySelector('.logo-image');
+            if (logoImg) {
+                logoImg.addEventListener('error', function() {
+                    this.style.display = 'none';
+                    const placeholder = document.querySelector('.logo-placeholder');
+                    if (placeholder) placeholder.style.display = 'flex';
+                });
+                if (logoImg.complete && logoImg.naturalHeight === 0) {
+                    logoImg.dispatchEvent(new Event('error'));
+                }
+            }
+        })();
+    </script>
+</body>
+</html>
